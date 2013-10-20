@@ -47,9 +47,11 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+		//kingとqueenの得点
 		kingpoint = 0;
 		queenpoint = 0;
 
+		//レベルの受け取り
 		Bundle extras = getIntent().getExtras();
 		int level = extras.getInt("level");
 		if (level == 2) {
@@ -74,10 +76,13 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 			cards[i-1] = (ImageButton) findViewById(getResources().getIdentifier("card"+i, "id", getPackageName()));
 			cards[i-1].setOnClickListener(this);
 			card_state[i-1]=0;
+			//2でわる->同じ整数2つ
 			card_sound[i-1]=(int)((i-1)/2);
 			if (game_num == 1) {
+				//全カード0 -> 音
 				card_sound_which[i-1] = 0;
 			} else {
+				//2で割ってあまりだけ1 -> 音でない
 				card_sound_which[i-1] = (int)((i-1)%2);
 			}
 		}
@@ -85,14 +90,17 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 		shuffle(card_sound, card_sound_which);
 		card_sound[CARD_NUM]=-1;
 
+		//勝敗ボタンセット
 		win = (ImageView) findViewById(R.id.win_pic);
 		win.setVisibility(View.INVISIBLE);
 
+		//各イメージセット
 		king_image = (ImageView) findViewById(R.id.player1);
 		queen_image = (ImageView) findViewById(R.id.player2);
 		king_point_image = (ImageView) findViewById(R.id.player1point);
 		queen_point_image = (ImageView) findViewById(R.id.player2point);
 
+		//ゲーム終了フラグ
 		END_FLAG = 0;
 		
 		// create adView
@@ -109,11 +117,13 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 	@Override
 	public void onClick(View v) {
 		for(int i=1; i<=CARD_NUM; i++) {
-			if (v == cards[i-1] && clicked != i-1) {//クリックされたカードだったら
+			//クリックされたカードだったら、かつ、前にクリックしていなかったら
+			if (v == cards[i-1] && clicked != i-1) {
 				game(i);
 				//Log.d("Debug", String.format("king:%d queen:%d",kingpoint, queenpoint));
 			}
 		}
+		//turnが変わるときに顔変える
 		if (TOGLE == 1) {
 			int king_num = (int)Math.floor(Math.random()*10)+1;
 			int queen_num = (int)Math.floor(Math.random()*10)+1;
@@ -215,10 +225,12 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 	}
 	
 	public void game(int i) {
+		//ゲーム２の文字カードじゃなければ音をならす
 		if (card_sound_which[i-1] == 0) {
 			playSound(card_sound[i-1]+1);
 		}
-		if (card_sound[i-1] == card_sound[clicked]) {//前にクリックされたものと同じ番号のカードだったら
+		//前にクリックされたものと同じ番号のカードだったら
+		if (card_sound[i-1] == card_sound[clicked]) {
 			if (TURN == -1) {//king's turn
 				cards[i-1].setOnClickListener(null);
 				touchAnimation(i-1, "king");
@@ -235,11 +247,15 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 				setPoint("queen");
 			}
 			clicked = CARD_NUM;
+			//枚数リセット
 			CARD_SEQ=0;
+			//ゲーム終わり
 			if (kingpoint > CARD_NUM/4 || queenpoint > CARD_NUM/4 || (kingpoint == CARD_NUM/4 && queenpoint == CARD_NUM/4)) {
 				gameEnd();
 			}
-		} else if (card_state[i-1] == 0 && CARD_SEQ < 1) {//1枚目なら
+		//1枚目なら(めくってないカード && めくったカード0)
+		} else if (card_state[i-1] == 0 && CARD_SEQ < 1) {
+			// game1か、音カードであれば
 			if (game_num != 2 || card_sound_which[i-1] == 0) {
 				cards[i-1].setImageResource(getResources().getIdentifier("card_icon_rev", "drawable", getPackageName()));
 			} else {
@@ -249,7 +265,8 @@ public class Game extends Activity implements OnClickListener, OnTouchListener {
 			card_state[i-1] = 1;
 			CARD_SEQ = 1;
 			clicked = i-1;
-		} else {//はずれなら
+		//はずれなら
+		} else {
 			touchAnimation(i-1, "");
 			touchAnimation(clicked, "");
 			card_state[i-1] = 0;

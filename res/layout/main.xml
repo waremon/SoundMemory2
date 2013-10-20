@@ -21,7 +21,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/sound_memory1"
+        android:src="@drawable/level1"
         android:scaleType="fitXY"
         android:soundEffectsEnabled="false"
         android:background="@null"/>
@@ -31,7 +31,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/sound_memory2"
+        android:src="@drawable/level2"
         android:scaleType="fitXY"
         android:soundEffectsEnabled="false"
         android:background="@null"/>
@@ -51,7 +51,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/sound_memory1"
+        android:src="@drawable/level1"
         android:scaleType="fitXY"
         android:soundEffectsEnabled="false"
         android:background="@null"/>
@@ -61,7 +61,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/sound_memory2"
+        android:src="@drawable/level2"
         android:scaleType="fitXY"
         android:soundEffectsEnabled="false"
         android:background="@null"/>
